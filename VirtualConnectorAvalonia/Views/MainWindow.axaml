@@ -1,0 +1,102 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="495" d:DesignHeight="550"
+        x:Class="VirtualConnectorAvalonia.MainWindow"
+        xmlns:vm="using:VirtualConnectorAvalonia.ViewModels"
+        Title="StreamConnector" Height="550" Width="495" MinWidth="495" MinHeight="550">
+
+  <Design.DataContext>
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+  
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="35"/>
+      <RowDefinition Height="2*"/>
+      <RowDefinition Height="183.04"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <DataGrid x:Name="NetworksDataGrid" 
+              AutoGenerateColumns="False"
+              Items="{Binding Networks}"
+              SelectionMode="Single"
+              SelectedItem="{Binding SelectedNetwork, Mode=TwoWay}"
+              CanUserSortColumns="True">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Network name" Binding="{Binding Name}" Width="*"/>
+      </DataGrid.Columns>
+    </DataGrid>
+    <Button x:Name="DeleteNetworkButton" 
+            Content="Delete" 
+            HorizontalAlignment="Left" 
+            Margin="250,0,0,0" Grid.Row="1" 
+            VerticalAlignment="Center" 
+            Height="25" Width="48"
+            Command="{Binding DeleteNetworkButtonClicked}"
+            IsEnabled="{Binding IsDeleteNetworkButtonEnabled}"
+            />
+    <Button x:Name="CreateNetworkButton"
+            Content="Create" HorizontalAlignment="Left"
+            Margin="196,0,0,0" Grid.Row="1"
+            VerticalAlignment="Center"
+            Height="25" Width="48"
+            Command="{Binding CreateNetworkButtonClicked}"
+            IsEnabled="{Binding IsCreateNetworkButtonEnabled}"
+            />
+    <TextBox x:Name="NetworkNameTextBox" 
+             HorizontalAlignment="Left" 
+             Margin="10,0,0,0"
+             Grid.Row="1" 
+             TextWrapping="Wrap" 
+             VerticalAlignment="Center" 
+             Width="181" 
+             Height="25"
+             Text="{Binding SelectedNetworkName, Mode=TwoWay}"/>
+    <DataGrid x:Name="ConnectionsDataGrid"
+              AutoGenerateColumns="False"
+              Grid.Row="2"
+              Items="{Binding Connections, Mode=OneWay}"
+              SelectedItem="{Binding SelectedConnection, Mode=TwoWay}">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Connection info" Binding="{Binding Info}" Width="*"/>
+      </DataGrid.Columns>
+    </DataGrid>
+    <ComboBox x:Name="ConnectionTypeComboBox"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  Width="148"
+                  Height="25" Margin="10,5,0,0" 
+                  Grid.Row="3"
+                  Items="{Binding Channels}"
+                  SelectedItem="{Binding SelectedConnectionCreator}"
+              />
+    <Canvas x:Name="ConnectionCreatorsCanvas"
+            Margin="0,31,0,0" Grid.Row="3"
+            >
+      <UserControl Content="{Binding SelectedConnectionCreator.Control}" />
+    </Canvas>
+    <Button x:Name="CreateConnectionButton" 
+            Content="Create" 
+            HorizontalAlignment="Left" 
+            Margin="6,151,0,0" 
+            VerticalAlignment="Top" 
+            Grid.Row="3"
+            Command="{Binding CreateConnectionButtonClicked}"
+            />
+    <Button x:Name="RemoveConnectionButton"
+            Content="Remove"
+            HorizontalAlignment="Left"
+            Margin="60,151,0,0"
+            VerticalAlignment="Top"
+            Grid.Row="3"
+            Command="{Binding DeleteConnectionButtonClicked}"
+            IsEnabled="{Binding IsDeleteConnectionButtonEnabled}"
+            />
+
+  </Grid>
+</Window>
